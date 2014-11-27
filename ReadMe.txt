@@ -1,15 +1,6 @@
-Camel Java Router Project
+Camel HIVE Support
 =========================
 
-To build this project use
-
-    mvn install
-
-To run this project from within Maven use
-
-    mvn exec:java
-
-For more help see the Apache Camel documentation
-
-    http://camel.apache.org/
-
+redacted version of camel-jdbc
+supports hive ql scripting.
+can execute multiple query at same connection
