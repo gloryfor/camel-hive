@@ -21,7 +21,9 @@ public class HiveComponent extends UriEndpointComponent {
     @Override
     protected Endpoint createEndpoint(String uri, String remaining, Map<String, Object> parameters) throws Exception {
         DataSource dataSource = CamelContextHelper.mandatoryLookup(getCamelContext(), remaining, DataSource.class);
-        return new HiveEndpoint(uri, this, dataSource);
+        HiveEndpoint hiveEndpoint = new HiveEndpoint(uri, this, dataSource);
+        setProperties(hiveEndpoint, parameters);
+        return hiveEndpoint;
     }
 
 }

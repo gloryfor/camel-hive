@@ -86,15 +86,17 @@ public class HiveProducer extends DefaultProducer {
     }
 
     protected boolean setResultSet(Exchange exchange, ResultSet resultSet) throws SQLException {
+        boolean answer = true;
         ResultSetIterator iterator = new ResultSetIterator(resultSet);
-
         LOG.info("output column names : {}", iterator.getColumnNames());
 
-        exchange.getOut().setBody(iterator);
-        exchange.addOnCompletion(new ResultSetIteratorCompletion(iterator));
+        if (HiveOutputType.StreamList.equals(getEndpoint().getOutputType())) {
+            exchange.getOut().setBody(iterator);
+            exchange.addOnCompletion(new ResultSetIteratorCompletion(iterator));
+            answer = false;
+        }
 
-        //only supports StreamList  always hold on connection until exchange ends
-        return false;
+        return answer;
     }
 
 

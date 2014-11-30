@@ -16,6 +16,9 @@ public class HiveEndpoint extends DefaultEndpoint {
     @UriParam
     private DataSource dataSource;
 
+    @UriParam
+    private HiveOutputType outputType = HiveOutputType.None;
+
     public HiveEndpoint(String endpointUri, Component component, DataSource dataSource) {
         super(endpointUri, component);
         this.dataSource = dataSource;
@@ -42,6 +45,14 @@ public class HiveEndpoint extends DefaultEndpoint {
 
     public void setDataSource(DataSource dataSource) {
         this.dataSource = dataSource;
+    }
+
+    public HiveOutputType getOutputType() {
+        return outputType;
+    }
+
+    public void setOutputType(HiveOutputType outputType) {
+        this.outputType = outputType;
     }
 
     @Override
