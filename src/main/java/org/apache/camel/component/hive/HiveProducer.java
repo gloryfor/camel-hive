@@ -46,6 +46,7 @@ public class HiveProducer extends DefaultProducer {
         } finally {
             if (shouldCloseResources) {
                 closeQuietly(connection);
+                LOG.info("close connection..");
             }
         }
     }

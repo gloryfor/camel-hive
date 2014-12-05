@@ -14,7 +14,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class ResultSetIterator implements Iterator<Map<String, Object>> {
     private static final Logger LOG = LoggerFactory.getLogger(ResultSetIterator.class);
 
-    private final Connection connection;
+    private Connection connection;
     private final Statement statement;
     private final ResultSet resultSet;
     private final Column[] columns;
@@ -88,12 +88,14 @@ public class ResultSetIterator implements Iterator<Map<String, Object>> {
 
     public void closeConnection() {
         safeCloseConnection();
+        this.connection = null;
     }
 
     private void loadNext() throws SQLException {
         boolean hasNext = resultSet.next();
         if (!hasNext) {
             close();
+            closeConnection();
         }
     }
 
@@ -115,7 +117,10 @@ public class ResultSetIterator implements Iterator<Map<String, Object>> {
 
     private void safeCloseConnection() {
         try {
-            connection.close();
+            if (connection != null) {
+                connection.close();
+                LOG.info("close connection...");
+            }
         } catch (SQLException e) {
             LOG.warn("Error by closing connection: " + e, e);
         }
